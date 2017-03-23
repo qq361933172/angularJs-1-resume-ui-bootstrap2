@@ -1,0 +1,12 @@
+{
+  "HELLO": "hello",
+  "MYNAME": "my name is",
+  "RESUMETITLE": "this is my resume",
+  "ABOUTME": "about",
+  "EDUCATION": "education",
+  "EXPERIENCES": "experiences",
+  "CONTACT": "concat",
+  "SKILLS": "skills",
+  "LANGUAGES": "languages",
+  "HOBBIES": "hobbies"
+}

@@ -1,0 +1,42 @@
+<div class="container-fluid" ng-controller="improveEducation">
+    <create-resume-title titlemsg="{{improveEducationTitle}}"></create-resume-title>
+    <div class="col-sm-4 col-sm-offset-4">
+        <form name="myform" novalidate ng-submit="myformsubmit()">
+            <div ng-class="{'form-group':true,'has-success':myform.startTime.$valid,'has-error':myform.startTime.$invalid && (myform.startTime.$dirty || submitted)}">
+                <label>开始时间:</label>
+                <date-picker date-picker-dt="startDt" date-picker-name="{{ctrlStartTime}}"></date-picker>
+                <p ng-show="myform.startTime.$error.required && (myform.startTime.$dirty || submitted)" class="help-block">选择开始时间.</p>
+            </div>
+            <div ng-class="{'form-group':true,'has-success':myform.endTime.$valid,'has-error':myform.endTime.$invalid && (myform.endTime.$dirty || submitted)}">
+                <label>结束时间:</label>
+                <date-picker date-picker-dt="endDt" date-picker-name="{{ctrlEndTime}}"></date-picker>
+                <p ng-show="myform.endTime.$error.required && (myform.endTime.$dirty || submitted)" class="help-block">选择结束时间.</p>
+            </div>
+            <div ng-class="{'form-group':true,'has-success':myform.school.$valid,'has-error':myform.school.$invalid && (myform.school.$dirty || submitted)}">
+                <label for="school">学校名称:</label>
+                <input required ng-minlength="2" ng-maxlength="15" name="school" ng-model="user.school" type="text" class="form-control" id="school" placeholder="学校名称">
+                <p ng-show="myform.school.$error.required && (myform.school.$dirty || submitted)" class="help-block">请输入学校名称.</p>
+                <p ng-show="myform.school.$error.minlength && (myform.school.$dirty || submitted)" class="help-block">学校名称最少3个字.</p>
+                <p ng-show="myform.school.$error.maxlength && (myform.school.$dirty || submitted)" class="help-block">学校名称最多不能超过15个字.</p>
+            </div>
+            <div ng-class="{'form-group':true,'has-success':myform.specialty.$valid,'has-error':myform.specialty.$invalid && (myform.specialty.$dirty || submitted)}">
+                <label for="specialty">专业院系:</label>
+                <input required ng-minlength="2" ng-maxlength="15" name="specialty" ng-model="user.specialty" type="text" class="form-control" id="specialty" placeholder="专业/院系">
+                <p ng-show="myform.specialty.$error.required && (myform.specialty.$dirty || submitted)" class="help-block">请输入专业名称.</p>
+                <p ng-show="myform.specialty.$error.minlength && (myform.specialty.$dirty || submitted)" class="help-block">专业名称最少3个字.</p>
+                <p ng-show="myform.specialty.$error.maxlength && (myform.specialty.$dirty || submitted)" class="help-block">专业名称最多不能超过15个字.</p>
+            </div>
+            <div class="form-group">
+                <label>学历学位 : </label>
+                <select class="form-control" ng-model="user.degree.selected" ng-options="o as o for o in user.degree.options"></select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block" ng-disabled="myform.$invalid" ng-click="saveResume()">保存并添加</button>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block" ng-disabled="myform.$invalid" ng-click="saveResume()">下一步</button>
+            </div>
+            <go-back-btn back="goback"></go-back-btn>
+        </form>
+    </div>
+</div>

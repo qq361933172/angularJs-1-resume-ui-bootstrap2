@@ -1,0 +1,20 @@
+<div class="container-fluid" ng-controller="improveInfo">
+    <create-resume-title titlemsg="{{improveInfoTitle}}"></create-resume-title>
+    <div class="col-sm-4 col-sm-offset-4">
+        <form name="myform" novalidate ng-submit="myformsubmit()">
+            <area-select placement="s1" placement2="s2" placement3="s3"></area-select>
+            <div class="form-group">
+                <label>期望月薪 : </label>
+                <select class="form-control" ng-model="user.salary.selected" ng-options="o as o for o in user.salary.options"></select>
+            </div>
+            <div class="form-group">
+                <label>目前状况 : </label>
+                <select class="form-control" ng-model="user.currentStatus.selected" ng-options="o as o for o in user.currentStatus.options"></select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block" ng-disabled="myform.$invalid">下一步</button>
+            </div>
+            <go-back-btn back="goback"></go-back-btn>
+        </form>
+    </div>
+</div>

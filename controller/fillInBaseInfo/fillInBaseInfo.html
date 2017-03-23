@@ -1,0 +1,57 @@
+<div class="container-fluid" ng-controller="fillInBaseInfo">
+    <create-resume-title titlemsg="{{fillBaseInfoTitle}}"></create-resume-title>
+    <div class="col-sm-4 col-sm-offset-4">
+        <form name="myform" novalidate ng-submit="myformsubmit()">
+            <div ng-class="{'form-group':true,'has-success':myform.username.$valid,'has-error':myform.username.$invalid && (myform.username.$dirty || submitted)}">
+                <label for="username">姓名:</label>
+                <input required ng-minlength="2" ng-maxlength="15" name="username" ng-model="user.username" type="text" class="form-control" id="username" placeholder="姓名">
+                <p ng-show="myform.username.$error.required && (myform.username.$dirty || submitted)" class="help-block">请输入姓名.</p>
+                <p ng-show="myform.username.$error.minlength && (myform.username.$dirty || submitted)" class="help-block">名字最少3个字.</p>
+                <p ng-show="myform.username.$error.maxlength && (myform.username.$dirty || submitted)" class="help-block">名字最多不能超过15个字.</p>
+            </div>
+            <div class="form-group">
+                <label>性别:</label>
+                <label class="checkbox-inline">
+                    <input type="radio" name="gender" ng-model="user.gender" value="male"> 男
+                </label>
+                <label class="checkbox-inline">
+                    <input type="radio" name="gender" ng-model="user.gender" value="female"> 女
+                </label>
+            </div>
+            <div ng-class="{'form-group':true,'has-success':myform.password.$valid,'has-error':myform.phone.$invalid && (myform.phone.$dirty || submitted)}">
+                <label for="phone">手机:</label>
+                <input required ng-pattern="reg" name="phone" ng-model="user.phone" class="form-control" id="phone" placeholder="电话">
+                <p ng-show="myform.phone.$error.required && (myform.phone.$dirty || submitted)" class="help-block">请填写联系手机.</p>
+                <p ng-show="myform.phone.$error.pattern && (myform.phone.$dirty || submitted)" class="help-block">手机号码不正确.</p>
+            </div>
+            <div ng-class="{'form-group':true,'has-success':myform.email.$valid,'has-error':myform.email.$invalid && (myform.email.$dirty || submitted)}">
+                <label>邮箱:</label>
+                <input required type="email" ng-pattern="regEmail" name="email" ng-model="user.email" class="form-control" id="email" placeholder="邮箱">
+                <p ng-show="myform.email.$error.required && (myform.email.$dirty || submitted)" class="help-block">请填写邮箱.</p>
+                <p ng-show="myform.email.$error.pattern && (myform.email.$dirty || submitted)" class="help-block">邮箱格式不正确.</p>
+            </div>
+            <div ng-class="{'form-group':true,'has-success':myform.qq.$valid,'has-error':myform.qq.$invalid && (myform.qq.$dirty || submitted)}">
+                <label>QQ:</label>
+                <input ng-pattern="regqq" name="qq" ng-model="user.qq" class="form-control" id="qq" placeholder="腾讯QQ号">
+                <p ng-show="myform.qq.$error.pattern && (myform.qq.$dirty || submitted)" class="help-block">QQ号格式不正确.</p>
+            </div>
+            <div ng-class="{'form-group':true,'has-success':myform.english.$valid,'has-error':myform.english.$invalid && (myform.english.$dirty || submitted)}">
+                <label>英语水平:</label>
+                <label class="checkbox-inline" ng-repeat="v in user.en track by $index">
+                    <input ng-click="enSelect($index)" type="checkbox" name="en" type="checkbox" ng-model="v['select']" value="v[level]">{{v["val"]}}
+                </label>
+            </div>
+            <div ng-class="{'form-group':true,'has-success':myform.birthday.$valid,'has-error':myform.birthday.$invalid && (myform.birthday.$dirty || submitted)}">
+                <label>出生日期:</label>
+                <date-picker date-picker-dt="ctrlDt" date-picker-name="{{ctrlDatePickerName}}"></date-picker>
+                <p ng-show="myform.birthday.$error.required && (myform.birthday.$dirty || submitted)" class="help-block">请选择出生日期.</p>
+            </div>
+            <div class="form-group">
+                <label for="photo">头像:</label>
+                <input type="file" id="photo">
+                <p class="help-block">上传您的照片.</p>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" ng-disabled="myform.$invalid">下一步</button>
+        </form>
+    </div>
+</div>

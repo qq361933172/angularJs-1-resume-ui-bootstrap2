@@ -1,0 +1,10 @@
+<div class="form-group">
+    <label>居住地 : </label>
+    <select class="form-control" ng-model="placement.selected" ng-change="proviceChange(placement.selected)" ng-options="o as o for o in placement.options"></select>
+</div>
+<div class="form-group">
+    <select class="form-control" ng-model="placement2.selected" ng-change="cityChange(placement.selected,placement2.selected)" ng-options="o as o for o in placement2.options"></select>
+</div>
+<div class="form-group">
+    <select class="form-control" ng-model="placement3.selected" ng-change="areaChange(placement3.selected)" ng-options="o as o for o in placement3.options"></select>
+</div>

@@ -1,0 +1,35 @@
+{
+  "name": "resume",
+  "version": "1.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "angular": "^1.6.2",
+    "angular-animate": "^1.6.2",
+    "angular-cookies": "^1.6.2",
+    "angular-route": "^1.6.2",
+    "angular-sanitize": "^1.6.3",
+    "angular-translate": "^2.15.1",
+    "angular-ui-bootstrap": "^2.5.0",
+    "bootstrap": "^3.3.7",
+    "css-loader": "^0.26.1",
+    "file-loader": "^0.10.0",
+    "jquery": "^3.1.1",
+    "less": "^2.3.1",
+    "less-loader": "^2.2.3",
+    "open-browser-webpack-plugin": "0.0.4",
+    "path": "^0.12.7",
+    "q": "^1.4.1",
+    "raw-loader": "^0.5.1",
+    "style-loader": "^0.13.1",
+    "textangular": "^1.5.16",
+    "url-loader": "^0.5.7",
+    "webpack": "^2.2.0"
+  }
+}

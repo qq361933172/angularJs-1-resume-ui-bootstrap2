@@ -1,0 +1,52 @@
+<div class="container-fluid" ng-controller="improveExperience">
+    <create-resume-title titlemsg="{{improveExperienceTitle}}"></create-resume-title>
+    <div class="col-sm-4 col-sm-offset-4">
+        <form name="myform" novalidate ng-submit="myformsubmit()">
+            <div ng-class="{'form-group':true,'has-success':myform.startTime.$valid,'has-error':myform.startTime.$invalid && (myform.startTime.$dirty || submitted)}">
+                <label>开始时间:</label>
+                <date-picker date-picker-dt="startDt" date-picker-name="{{ctrlStartTime}}"></date-picker>
+                <p ng-show="myform.startTime.$error.required && (myform.startTime.$dirty || submitted)" class="help-block">选择开始时间.</p>
+            </div>
+            <div ng-class="{'form-group':true,'has-success':myform.endTime.$valid,'has-error':myform.endTime.$invalid && (myform.endTime.$dirty || submitted)}">
+                <label>结束时间:</label>
+                <date-picker date-picker-dt="endDt" date-picker-name="{{ctrlEndTime}}"></date-picker>
+                <p ng-show="myform.endTime.$error.required && (myform.endTime.$dirty || submitted)" class="help-block">选择结束时间.</p>
+            </div>
+            <div ng-class="{'form-group':true,'has-success':myform.corporateName.$valid,'has-error':myform.corporateName.$invalid && (myform.corporateName.$dirty || submitted)}">
+                <label for="corporateName">公司名称:</label>
+                <input required ng-minlength="2" ng-maxlength="15" name="corporateName" ng-model="user.corporateName" type="text" class="form-control" id="corporateName" placeholder="公司名称">
+                <p ng-show="myform.corporateName.$error.required && (myform.corporateName.$dirty || submitted)" class="help-block">请输入公司名称.</p>
+                <p ng-show="myform.corporateName.$error.minlength && (myform.corporateName.$dirty || submitted)" class="help-block">公司名称最少3个字.</p>
+                <p ng-show="myform.corporateName.$error.maxlength && (myform.corporateName.$dirty || submitted)" class="help-block">公司名称最多不能超过15个字.</p>
+            </div>
+            <div ng-class="{'form-group':true,'has-success':myform.jobTitle.$valid,'has-error':myform.jobTitle.$invalid && (myform.jobTitle.$dirty || submitted)}">
+                <label for="jobTitle">职位:</label>
+                <input required ng-minlength="2" ng-maxlength="15" name="jobTitle" ng-model="user.jobTitle" type="text" class="form-control" id="jobTitle" placeholder="职位名称">
+                <p ng-show="myform.jobTitle.$error.required && (myform.jobTitle.$dirty || submitted)" class="help-block">请输入职位.</p>
+                <p ng-show="myform.jobTitle.$error.minlength && (myform.jobTitle.$dirty || submitted)" class="help-block">职位名称最少3个字.</p>
+                <p ng-show="myform.jobTitle.$error.maxlength && (myform.jobTitle.$dirty || submitted)" class="help-block">职位名称最多不能超过15个字.</p>
+            </div>
+            <div ng-class="{'form-group':true,'has-success':myform.salary.$valid,'has-error':myform.salary.$invalid && (myform.salary.$dirty || submitted)}">
+                <label for="jobTitle">月薪:</label>
+                <input required ng-minlength="2" ng-maxlength="15" name="salary" ng-model="user.salary" type="text" class="form-control" id="salary" placeholder="月薪">
+                <p ng-show="myform.salary.$error.required && (myform.salary.$dirty || submitted)" class="help-block">月薪.</p>
+                <p ng-show="myform.salary.$error.minlength && (myform.salary.$dirty || submitted)" class="help-block">月薪最少3个字.</p>
+                <p ng-show="myform.salary.$error.maxlength && (myform.salary.$dirty || submitted)" class="help-block">月薪最多不能超过15个字.</p>
+            </div>
+            <div ng-class="{'form-group':true,'has-success':myform.jobContent.$valid,'has-error':myform.jobContent.$invalid && (myform.jobContent.$dirty || submitted)}">
+                <label for="jobTitle">工作内容:</label>
+                <textarea required ng-minlength="2" ng-maxlength="15" name="salary" ng-model="user.jobContent" type="text" class="form-control" id="jobContent" placeholder="工作内容" row="5"></textarea>
+                <p ng-show="myform.jobContentjobContent.$error.required && (myform.jobContent.$dirty || submitted)" class="help-block">工作内容.</p>
+                <p ng-show="myform.jobContent.$error.minlength && (myform.jobContent.$dirty || submitted)" class="help-block">工作内容最少3个字.</p>
+                <p ng-show="myform.jobContent.$error.maxlength && (myform.jobContent.$dirty || submitted)" class="help-block">工作内容最多不能超过15个字.</p>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block" ng-disabled="myform.$invalid" ng-click="saveResume()">保存并添加</button>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger btn-block" ng-disabled="myform.$invalid" ng-click="previewResume()">保存并预览</button>
+            </div>
+            <go-back-btn back="goback"></go-back-btn>
+        </form>
+    </div>
+</div>
