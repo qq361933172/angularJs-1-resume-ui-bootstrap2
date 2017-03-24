@@ -1,19 +1,10 @@
 //导出webpack配置
 //var OpenBrowserPlugin = require('open-browser-webpack-plugin');//自动打开浏览器插件
-var path = require("path");
-var ex = require("extract-text-webpack-plugin");
 var port = 8002;
-console.log("path.join(__dirname, '/dist') : ",path.join(__dirname, '/dist'));// D:\soft\phpStudy\WWW\study\angularJs-1-resume-ui-bootstrap2\dist
-alert()
 module.exports = {
-
-    entry: {
-        index: './index.js'//入口文件
-    },
+    entry: './entry.js',//入口文件 // 固定的
     output: {
-        path: path.join(__dirname, '/dist'),
-        filename: 'js/[name].js',
-        publicPath: './'
+        filename: 'bundle.js' //出口文件,这个文件名字可以随便取,执行命令的时候会自动建
     },
     //自动打开浏览器插件
     /*plugins: [
@@ -34,7 +25,7 @@ module.exports = {
                 test: /\.css$/,
                 // 感叹号代表连接符号,表示css文件用了两个加载器:css-loader和style-loader
                 //代替entry.js中的require('style-loader!css-loader!')
-                loader: ex.extract({ fallback: 'style-loader', use: 'css-loader' })
+                loader: 'style-loader!css-loader'
             },
             {
                 //加载html文件,有的时候需要自动刷新index.html的时候会用到
@@ -49,9 +40,6 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new ex("test.css")
-    ],
     //配置省略后缀,配置别名
     resolve: {
         "extensions": ['', '.js', '.css', '.json']//当引入模块的时候,路径可以省略文件名后缀

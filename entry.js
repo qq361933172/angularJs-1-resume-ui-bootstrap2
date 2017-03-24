@@ -1,6 +1,6 @@
 //css
-//require("./node_modules/bootstrap/dist/css/bootstrap.css");
-//require('./static/css/style.less');
+require("./node_modules/bootstrap/dist/css/bootstrap.css");
+require("./static/css/red/style.less");
 //angular
 require("angular");
 require("angular-route");
