@@ -50,6 +50,8 @@ var app = angular.module("resume", [
     "ngCookies",
     "pascalprecht.translate"
 ]);
+
+
 //run,初始化
 app.run(run);
 //router
