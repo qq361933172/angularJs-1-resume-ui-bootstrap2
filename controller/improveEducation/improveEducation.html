@@ -1,6 +1,15 @@
 <div class="container-fluid" ng-controller="improveEducation">
     <create-resume-title titlemsg="{{improveEducationTitle}}"></create-resume-title>
     <div class="col-sm-4 col-sm-offset-4">
+        <div ng-show="educationList.length>0" class="list-group education-list">
+            <a ng-repeat="v in educationList track by $index" href="javascript:;" class="list-group-item">
+                <h4>{{v.startTime|date:'yyyy-MM-dd'}} ~ {{v.endTime|date:'yyyy-MM-dd'}}</h4>
+                <h4>在{{v.school}}</h4>
+                <h4>就读{{v.specialty}}</h4>
+                <h4 ng-show="v.qualifications!='无'">取得{{v.qualifications}}</h4>
+                <a href="javascript" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
+            </a>
+        </div>
         <form name="myform" novalidate ng-submit="myformsubmit()">
             <div ng-class="{'form-group':true,'has-success':myform.startTime.$valid,'has-error':myform.startTime.$invalid && (myform.startTime.$dirty || submitted)}">
                 <label>开始时间:</label>

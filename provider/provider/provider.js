@@ -1,11 +1,12 @@
 module.exports.resumeProvider = function () {
     this.$get = function ($cookies) {
+        //初始化的时候,调用,创建cookies,不然后面调用或者创建cookies对象里面的对象时,会报错
         if (!!!$cookies.getObject("resume")) {
             var resume = {
                 //用户信息
                 userInfo: {
                     __v: "",
-                    _id: "",
+                    _id: "",//跟userid相同
                     userid: '',
                     username: '',
                     phone: '',

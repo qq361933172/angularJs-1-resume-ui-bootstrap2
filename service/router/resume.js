@@ -22,17 +22,31 @@ router.get('/', function (req, res) {
 //填写基本信息
 router.post('/createResume/fillInBaseInfo', function (req, res) {
     var userModel = require("../models/user").userModel;
-    var userM = new userModel(req.body);
-    //todo:save
-    userM.save(function (error, user) {
-        if (error) {
-            return console.log('error', error);
-        }
-    }).then(function () {
-        //console.log(userM._doc);
-        var userdata = Object.assign({}, userM._doc, {code: 1});
-        res.send(userdata);
-    });
+    var newUser = new userModel(req.body);
+    var userid = req.body.userid;
+    console.log(userid);
+    if (!!userid) {
+        //更新
+        delete newUser._id;
+        userModel.update({_id: userid}, {$set: newUser}, function (error, user) {
+            if (error)console.log(error);
+            console.log(user);
+            res.send(Object.assign({}, {code: 1}, user._doc));
+        });
+    } else {
+
+        //存入
+        //todo:save
+        newUser.save(function (error, user) {
+            if (error) {
+                return console.log('error', error);
+            }
+        }).then(function () {
+            //console.log(newUser._doc);
+            var userdata = Object.assign({}, newUser._doc, {code: 1, userid: newUser._doc._id});
+            res.send(userdata);
+        });
+    }
 });
 //进一步完善个人信息
 router.post('/createResume/improveInfo', function (req, res) {
@@ -59,20 +73,36 @@ router.post("/createResume/improveEducation", function (req, res) {
     var education = req.body;
     delete education.degree;
     //console.log(education);
+    //console.log(req.body);
+    //console.log(req.body._id);
+    //return;
     var userid = {userid: req.body._id}
+    delete education._id;//删掉,不然会报e1100错误,重复的_id
     //console.log(userid);
     var saveData = Object.assign({}, education, userid);
     //存储
-    console.log("saveData : ", saveData);
-    var educationM = new educationModel(saveData);
-    educationM.save(function (error, education) {
+    //console.log("saveData : ", saveData);
+    var newEducation = new educationModel(saveData);
+    var promise1 = newEducation.save(function (error, education) {
         if (error) {
             return console.log('error', error);
         }
-    }).then(function () {
-        console.log("education : ", education);
     });
-    res.send("success");
+    //console.log(userid);
+    var promise2 = educationModel.finddata(userid, function (error, result) {
+        if (error) {
+            return console.log('error', error);
+        }
+    });
+    q.all([promise1, promise2]).then(function (val) {
+        res.send([{code: 1}, education, val[1]]);
+    });
+});
+//获取教育经历列表
+router.post("/createResume/educationList", function (req, res) {
+    var educationModel = require("../models/education");
+    var userid = req.body.userid;
+    res.send(userid);
 });
 //进一步完善个人经验
 router.post("/createResume/improveExperience", function (req, res) {
@@ -85,15 +115,15 @@ router.post("/createResume/improveExperience", function (req, res) {
     var savedata = Object.assign(experience, userid);
     //console.log(savedata);
     //存储
-    var experienceM = new experienceModel(savedata);
-    experienceM.save(function (error, experience) {
+    var newExperience = new experienceModel(savedata);
+    newExperience.save(function (error, experience) {
         if (error) {
             return console.log('error', error);
         }
     }).then(function () {
-        //console.log(userM._doc);
-        // console.log(experienceM._doc);
-        var userdata = Object.assign({}, experienceM._doc, {code: 1});
+        //console.log(newUser._doc);
+        // console.log(newExperience._doc);
+        var userdata = Object.assign({}, newExperience._doc, {code: 1});
         res.send(userdata);
     });
 });

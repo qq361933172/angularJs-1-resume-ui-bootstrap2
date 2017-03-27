@@ -1,4 +1,4 @@
-module.exports.fillInBaseInfo= function ($scope, $route, $http, resumeValue, $location, $cookies, resumeConstant, resumeService, resumeFactory) {
+module.exports.fillInBaseInfo = function ($scope, $route, $http, resumeValue, $location, $cookies, resumeConstant, resumeService, resumeFactory) {
     $scope.ctrlDatePickerName = "birthday";
     var cookieResume = $cookies.getObject("resume");
     $scope.ctrlDt = !!cookieResume.userInfo.dt ? new Date(cookieResume.userInfo.dt) : new Date();
@@ -35,9 +35,9 @@ module.exports.fillInBaseInfo= function ($scope, $route, $http, resumeValue, $lo
         if (!$scope.myform.$valid) {
             return false;
         }
+        var resumeCookies = $cookies.getObject("resume");
         $scope.submitted = true;
         $scope.user.englishLevel = (function () {
-            var resumeCookies = $cookies.getObject("resume");
             if (!!resumeCookies.userInfo.englishLevel) {
                 return resumeCookies.userInfo.englishLevel;
             }
@@ -49,6 +49,8 @@ module.exports.fillInBaseInfo= function ($scope, $route, $http, resumeValue, $lo
             });
             return value;
         })();
+        //console.log(resumeCookies);
+        $scope.user.userid = !!resumeCookies.userInfo.userid ? resumeCookies.userInfo.userid : "";
         $http.post(resumeConstant.service.fillInBaseInfo, $scope.user)
             .then(function (res) {
                 if (res.data.code == 1) {
@@ -59,8 +61,9 @@ module.exports.fillInBaseInfo= function ($scope, $route, $http, resumeValue, $lo
                         userInfo: res.data,
                         location: resumeConstant.url.improveInfo
                     });
+                    console.log(res.data);
                     //console.log($cookies.getObject("resume"));
-                    $route.reload();
+                    //$route.reload();
                     //$location.path("/createResumeStep2");
                 }
             }, function (error) {

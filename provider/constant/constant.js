@@ -28,11 +28,12 @@ module.exports.resumeConstant = {
         previewResume: "./controller/previewResume/previewResume.html"
     },
     service: {
-        fillInBaseInfo: serviceSite + "resume/createResume/fillInBaseInfo",
-        improveInfo: serviceSite + "resume/createResume/improveInfo",
-        improveEducation: serviceSite + "resume/createResume/improveEducation",
-        improveExperience: serviceSite + "resume/createResume/improveExperience",
-        previewResume: serviceSite + "resume/previewResume"
+        fillInBaseInfo: serviceSite + "resume/createResume/fillInBaseInfo",//填写基本资料
+        improveInfo: serviceSite + "resume/createResume/improveInfo",//完善个人信息
+        improveEducation: serviceSite + "resume/createResume/improveEducation",//教育经历
+        improveExperience: serviceSite + "resume/createResume/improveExperience",//工作经历
+        previewResume: serviceSite + "resume/previewResume",//预览简历
+        educationList: serviceSite + "resume/educationList"//获取教育经历列表
     },
     //高德api
     gaodeApi: {

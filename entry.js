@@ -10,7 +10,7 @@ require("angular-cookies");
 require("angular-translate");
 //myjs
 var myutil = require("./static/js/myutil").myutil;
-//myutil.clearAllCokies();
+myutil.clearAllCokies();
 //directive
 require("./directive/goBackBtn/go-back-btn.html");
 var goBackBtn = require("./directive/goBackBtn/goBackBtn").goBackBtn;
