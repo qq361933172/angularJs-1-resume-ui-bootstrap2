@@ -5,9 +5,7 @@ module.exports.resumeProvider = function () {
             var resume = {
                 //用户信息
                 userInfo: {
-                    __v: "",
-                    _id: "",//跟userid相同
-                    userid: '',
+                    userid: '',//对应mongodb中,users表里的_id
                     username: '',
                     phone: '',
                     gender: '',//性别
@@ -23,6 +21,7 @@ module.exports.resumeProvider = function () {
                 location: "",
                 //教育状况
                 education: {
+                    educationid: "",//对应monbodb中,education表里的_id
                     startTime: "",
                     endTime: "",
                     school: "",
@@ -33,6 +32,7 @@ module.exports.resumeProvider = function () {
                 },
                 //工作经验
                 experience: {
+                    experienceid: "",//对应experience表中的_id
                     //第几个工作经验
                     // index: 0,
                     //开始时间

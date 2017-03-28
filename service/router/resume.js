@@ -4,6 +4,16 @@ var app = express();
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());
 var router = express.Router();
+//删除_id和__v;
+function deleteItems(obj) {
+    if ("_id" in obj) {
+        delete obj._id;
+    }
+    if ("__v" in obj) {
+        delete obj.__v;
+    }
+    return obj;
+}
 router.get('/', function (req, res) {
     //console.log(req.query);//取get参数相当于php中的$_GET
     /* res
@@ -20,55 +30,92 @@ router.get('/', function (req, res) {
 //     res.send('success');
 // });
 //填写基本信息
+//todo:如果有userid传过来,则为更新操作,反之,则为插入一行新数据
 router.post('/createResume/fillInBaseInfo', function (req, res) {
     var userModel = require("../models/user").userModel;
-    var newUser = new userModel(req.body);
     var userid = req.body.userid;
-    console.log(userid);
     if (!!userid) {
-        //更新
-        delete newUser._id;
-        userModel.update({_id: userid}, {$set: newUser}, function (error, user) {
-            if (error)console.log(error);
-            console.log(user);
-            res.send(Object.assign({}, {code: 1}, user._doc));
+        console.log("fillInBaseInfo : ", "update");
+        //存在userid则更新userinfo(users表)
+        var promise1 = userModel.update({_id: userid}, {$set: req.body}, function (error) {
         });
-    } else {
-
-        //存入
-        //todo:save
-        newUser.save(function (error, user) {
-            if (error) {
-                return console.log('error', error);
-            }
+        var promise2 = userModel.finddata({_id: userid}, function () {
+        });
+        q.all([promise1, promise2]).then(function (val) {
+            var resUser = val[1][0]._doc;
+            deleteItems(resUser);
+            res.send(Object.assign({code: 1}, resUser));
+        });
+    }
+    else {
+        console.log("fillInBaseInfo : ", "save");
+        //不存在userid,则存储userinfo(users表)
+        var userInstance = new userModel(req.body);
+        userInstance.save(function (error, user) {
+            if (error)console.log('error', error);
         }).then(function () {
-            //console.log(newUser._doc);
-            var userdata = Object.assign({}, newUser._doc, {code: 1, userid: newUser._doc._id});
-            res.send(userdata);
-        });
+            var resUser = userInstance._doc;
+            resUser.userid = resUser._id;
+            deleteItems(resUser);
+            res.send(Object.assign({}, {code: 1}, resUser));
+        })
     }
 });
 //进一步完善个人信息
 router.post('/createResume/improveInfo', function (req, res) {
-    //console.log("req.body : ", req.body);
     var userModel = require("../models/user").userModel;
-    // console.log(req.body.userInfo);
-    //todo:update
-    var id = {"_id": req.body.userInfo._id};
-    //console.log(req.body.userInfo);
-    userModel.update(id, req.body.userInfo, function (error) {
-        if (error)console.log("error", error);
-        //todo : find
-        userModel.finddata(id, function (error, userdata) {
-            if (error)console.log("error", error);
-            //console.log(userdata);
-            res.send(Object.assign(userdata[0]._doc, {code: 1}));
-        })
-    })
-    ;
+    var userid = req.body.userInfo.userid;
+    var userdata = req.body.userInfo;
+    //更新数据
+    var promise1 = userModel.update({_id: userid}, {$set: userdata}, function () {
+    });
+    //查询数据,并返回数据到客户端
+    var promise2 = userModel.finddata({_id: userid}, function () {
+    });
+    q.all([promise1, promise2]).then(function (val) {
+        var resUser = val[1][0]._doc;
+        deleteItems(resUser);
+        //console.log(resUser);
+        res.send(Object.assign({}, {code: 1}, resUser));
+    });
 });
 //完善教育经历
 router.post("/createResume/improveEducation", function (req, res) {
+    //console.log(req.body);
+    var educationModel = require("../models/education").educationModel;
+    var educationData = req.body;
+    var educationid = req.body.educationid;
+    var userid = req.body.userid;
+    if (!!educationid) {//更新数据
+    } else {//插入一条新数据并保存
+        var educationInstance = new educationModel(educationData);
+        var promise1 = educationInstance.save(function (error) {
+            if (error)console.log("education save error : ", error);
+        });
+        var promise2 = educationModel.finddata({userid: userid}, function (error) {
+            if (error)console.log("educationModel.finddata error : ", error);
+        });
+        q.all([promise1, promise2]).then(function (val) {
+            var resEducation = val[1];
+            //N个教育经历
+            resEducation = resEducation.map(function (item, i) {
+                item = item._doc;
+                item.educationid = item._id;
+                deleteItems(item);
+                return item;
+            });
+            res.send(Object.assign({}, {code: 1}, {educationArr: resEducation}));
+        });
+    }
+    
+    return;
+    console.log(req.body);
+    if (req.body.action == "save") {//插入一条新的教育经历
+    }
+    else if (req.body.action == "update") {//更新教育经历
+    }
+    res.send("success")
+    return;
     var educationModel = require("../models/education").educationModel;
     var education = req.body;
     delete education.degree;

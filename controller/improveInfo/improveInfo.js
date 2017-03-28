@@ -45,6 +45,7 @@ module.exports.improveInfo = function ($scope, resumeValue, $http, $cookies, $ro
         $http.post(resumeConstant.service.improveInfo, resume)
             .then(function (res) {
                 if (res.data.code == 1) {
+                    //console.log(res.data);
                     delete res.data.code;
                     //console.log(res.data);
                     //存入用户信息和下一步跳转路径
@@ -52,6 +53,7 @@ module.exports.improveInfo = function ($scope, resumeValue, $http, $cookies, $ro
                         userInfo: res.data,
                         location: resumeConstant.url.improveEducation
                     });
+                    //console.log(res.data);
                     //console.log($cookies.getObject("resume"));
                     $route.reload();
                     //$location.path("/createResumeStep2");

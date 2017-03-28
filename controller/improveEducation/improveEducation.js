@@ -23,23 +23,23 @@ module.exports.improveEducation = function ($scope, resumeValue, resumeConstant,
         options: ["无", "大专", "本科", "研究生", "博士"],
         selected: "无"
     };
-    $scope.educationList = [];
     var resumeCookies = $cookies.getObject("resume");
-    console.log(resumeCookies);
+    $scope.educationList = [];
+    //console.log(resumeCookies);
     //$http.post(resumeConstant.service.educationList,)
     $scope.myformsubmit = function () {
         $scope.user.qualifications = $scope.user.degree.selected;
         //  console.log($scope.user);
         $http.post(resumeConstant.service.improveEducation, Object.assign($scope.user, {
-                _id: $cookies.getObject("resume").userInfo._id
+                userid: $cookies.getObject("resume").userInfo.userid
             }))
             .then(function (res) {
-                //console.log(res);
-                if (res.data[0].code == 1) {
-                    res.data.shift(0);
-                    res.data.shift(1);
-                    $scope.educationList = res.data[0].slice(res.data[0].length - 3, res.data[0].length);
-                    console.log(res.data);
+                //console.log(res.data);
+                if (res.data.code == 1) {
+                    var educationData = res.data;
+                    delete educationData.code;
+                    $scope.educationList = educationData.educationArr;
+                    console.log($scope.educationList);
                 }
             }, function (error) {
                 if (error) {
@@ -47,4 +47,7 @@ module.exports.improveEducation = function ($scope, resumeValue, resumeConstant,
                 }
             })
     }
+    
+    
+    
 }

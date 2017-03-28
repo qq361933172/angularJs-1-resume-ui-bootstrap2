@@ -61,9 +61,8 @@ module.exports.fillInBaseInfo = function ($scope, $route, $http, resumeValue, $l
                         userInfo: res.data,
                         location: resumeConstant.url.improveInfo
                     });
-                    console.log(res.data);
                     //console.log($cookies.getObject("resume"));
-                    //$route.reload();
+                    $route.reload();
                     //$location.path("/createResumeStep2");
                 }
             }, function (error) {
