@@ -36,14 +36,14 @@ module.exports = {
             {test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000'},
             {
                 test: /\.less$/,
-                loader: "style!css!less"
+                loader: "style-loader!css-loader!less-loader"
             }
         ]
     },
     //配置省略后缀,配置别名
     resolve: {
-        "extensions": ['', '.js', '.css', '.json']//当引入模块的时候,路径可以省略文件名后缀
+        "extensions": ['*', '.js', '.css', '.json']//当引入模块的时候,路径可以省略文件名后缀
     }
 };
-var OpenBrowserPlugin = require('open-browser-webpack-plugin');
+
 

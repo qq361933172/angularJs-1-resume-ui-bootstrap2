@@ -1,5 +1,6 @@
+<!--todo :完善教育经历这里，有问题，完善教育经历页面无法赋值到datepicker里面-->
 <p class="input-group">
-    <input name="{{datePickerName}}" ng-change="changeValue()" required  ng-readonly="1" type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" close-text="Close"/>
+    <input name="{{datePickerName}}" ng-change="changeValue()" required ng-readonly="1" type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" close-text="Close"/>
         <span class="input-group-btn">
                 <button class="btn btn-default" type="button" ng-click="open2()">选择日期</button>
         </span>

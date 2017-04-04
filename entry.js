@@ -80,6 +80,8 @@ app.controller("improveInfo", improveInfo);
 app.controller("improveEducation", improveEducation);
 app.controller("improveExperience", improveExperience);
 app.controller("previewResume", previewResume);
+//filter
+app.filter("educationListFilter", require("./filters/filters").filters.educationListFilter);
 
 
 

@@ -2,7 +2,7 @@ module.exports.datePicker = function () {
     return {
         scope: {
             datePickerDt: "=",
-            datePickerName:"@"
+            datePickerName: "@"
         },
         restrict: "AE",
         templateUrl: "./directive/datePicker/datePicker.html",
@@ -13,6 +13,7 @@ module.exports.datePicker = function () {
             $scope.clear = function () {
                 $scope.dt = null;
             };
+            
             $scope.inlineOptions = {
                 customClass: getDayClass,
                 minDate: new Date(),

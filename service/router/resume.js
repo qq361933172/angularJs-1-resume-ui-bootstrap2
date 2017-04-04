@@ -48,7 +48,7 @@ router.post('/createResume/fillInBaseInfo', function (req, res) {
         });
     }
     else {
-        console.log("fillInBaseInfo : ", "save");
+        //console.log("fillInBaseInfo : ", "save");
         //不存在userid,则存储userinfo(users表)
         var userInstance = new userModel(req.body);
         userInstance.save(function (error, user) {
@@ -79,6 +79,38 @@ router.post('/createResume/improveInfo', function (req, res) {
         res.send(Object.assign({}, {code: 1}, resUser));
     });
 });
+//预览教育经历
+router.post('/createResume/previewEducation', function (req, res) {
+    var educationModel = require("../models/education").educationModel;
+    var userid = req.body.userid;
+    educationModel.finddata({userid: userid}, function (error) {
+        if (error)console.log('previewEducation error', error);
+    }).then(function (result) {
+        if (!!result.length) {//存在历史教育经历记录
+            result = result.map(function (item, i) {
+                item = item._doc;//todo: 结果集对象,记得要把_doc转掉
+                item.educationid = item._id;
+                deleteItems(item);
+                return item;
+            });
+            res.send(Object.assign({code: 1}, result));
+        } else {//不存在
+            res.send({code: 0});
+        }
+    })
+});
+//todo : 删除教育经历
+router.post("/createResume/deleteEducation", function (req, res) {
+    //res.send(req.body);
+    var educationModel = require("../models/education").educationModel;
+    var userid = req.body.userid;
+    var educationid = req.body.educationid;
+    educationModel.remove({userid: userid, _id: educationid}, function (error) {
+        if (error)console.log("deleteEducation error : ", error);
+    }).then(function (result) {
+        res.send({code: 1});
+    });
+});
 //完善教育经历
 router.post("/createResume/improveEducation", function (req, res) {
     //console.log(req.body);
@@ -107,43 +139,7 @@ router.post("/createResume/improveEducation", function (req, res) {
             res.send(Object.assign({}, {code: 1}, {educationArr: resEducation}));
         });
     }
-    
     return;
-    console.log(req.body);
-    if (req.body.action == "save") {//插入一条新的教育经历
-    }
-    else if (req.body.action == "update") {//更新教育经历
-    }
-    res.send("success")
-    return;
-    var educationModel = require("../models/education").educationModel;
-    var education = req.body;
-    delete education.degree;
-    //console.log(education);
-    //console.log(req.body);
-    //console.log(req.body._id);
-    //return;
-    var userid = {userid: req.body._id}
-    delete education._id;//删掉,不然会报e1100错误,重复的_id
-    //console.log(userid);
-    var saveData = Object.assign({}, education, userid);
-    //存储
-    //console.log("saveData : ", saveData);
-    var newEducation = new educationModel(saveData);
-    var promise1 = newEducation.save(function (error, education) {
-        if (error) {
-            return console.log('error', error);
-        }
-    });
-    //console.log(userid);
-    var promise2 = educationModel.finddata(userid, function (error, result) {
-        if (error) {
-            return console.log('error', error);
-        }
-    });
-    q.all([promise1, promise2]).then(function (val) {
-        res.send([{code: 1}, education, val[1]]);
-    });
 });
 //获取教育经历列表
 router.post("/createResume/educationList", function (req, res) {

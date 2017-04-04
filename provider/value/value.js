@@ -3,6 +3,7 @@ module.exports.resumeValue = {
         fillBaseInfoTitle: "填写基本信息",
         improveInfoTitle: "进一步完善信息",
         improveEducationTitle: "完善教育经历",
+        updateEducationTitle: "修改教育经历",
         improveExperienceTitle: "完善工作经验"
     },
     error: {

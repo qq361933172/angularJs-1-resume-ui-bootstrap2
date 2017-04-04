@@ -1,14 +1,18 @@
 <div class="container-fluid" ng-controller="improveEducation">
-    <create-resume-title titlemsg="{{improveEducationTitle}}"></create-resume-title>
+    <create-resume-title titlemsg="{{pageTitle}}"></create-resume-title>
     <div class="col-sm-4 col-sm-offset-4">
-        <div ng-show="educationList.length>0" class="list-group education-list">
-            <a ng-repeat="v in educationList track by $index" href="javascript:;" class="list-group-item">
+        <div ng-if="!isUpdate" class="list-group education-list">
+            <a ng-repeat="v in educationList | educationListFilter:'up' track by $index " href="javascript:;" class="list-group-item">
                 <h4>{{v.startTime|date:'yyyy-MM-dd'}} ~ {{v.endTime|date:'yyyy-MM-dd'}}</h4>
                 <h4>在{{v.school}}</h4>
                 <h4>就读{{v.specialty}}</h4>
                 <h4 ng-show="v.qualifications!='无'">取得{{v.qualifications}}</h4>
-                <span class="btn btn-default edit"><i class="glyphicon glyphicon-pencil"></i></span>
-                <span ng-click="deleteEducation(v.educationid)" class="btn btn-default delete"><i class="glyphicon glyphicon-trash"></i></span>
+                <span ng-click="updateEducation(v)" class="btn btn-default edit">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                </span>
+                <span ng-click="deleteEducation(v.educationid)" class="btn btn-default delete">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </span>
             </a>
         </div>
         <form name="myform" novalidate ng-submit="myformsubmit()">
@@ -41,12 +45,15 @@
                 <select class="form-control" ng-model="user.degree.selected" ng-options="o as o for o in user.degree.options"></select>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block" ng-disabled="myform.$invalid" ng-click="saveResume()">保存并添加</button>
+                <button type="submit" class="btn btn-primary btn-block" ng-disabled="myform.$invalid">
+                    <span ng-if="isUpdate">保存修改</span>
+                    <span ng-if="!isUpdate">保存并添加</span>
+                </button>
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block" ng-disabled="myform.$invalid" ng-click="saveResume()">下一步</button>
+            <div ng-if="!isUpdate" class="form-group">
+                <button type="submit" class="btn btn-primary btn-block" ng-disabled="myform.$invalid">下一步</button>
             </div>
-            <go-back-btn back="goback"></go-back-btn>
+            <go-back-btn ng-if="!isUpdate" back="goback"></go-back-btn>
         </form>
     </div>
 </div>

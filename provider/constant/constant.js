@@ -30,6 +30,8 @@ module.exports.resumeConstant = {
     service: {
         fillInBaseInfo: serviceSite + "resume/createResume/fillInBaseInfo",//填写基本资料
         improveInfo: serviceSite + "resume/createResume/improveInfo",//完善个人信息
+        previewEducation: serviceSite + "resume/createResume/previewEducation",//预览教育经历
+        deleteEducation: serviceSite + "resume/createResume/deleteEducation",//删除教育经历
         improveEducation: serviceSite + "resume/createResume/improveEducation",//教育经历
         improveExperience: serviceSite + "resume/createResume/improveExperience",//工作经历
         previewResume: serviceSite + "resume/previewResume",//预览简历
