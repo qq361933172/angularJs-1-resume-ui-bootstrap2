@@ -2,6 +2,21 @@
     <create-resume-title titlemsg="{{improveExperienceTitle}}"></create-resume-title>
     <div class="col-sm-4 col-sm-offset-4">
         <form name="myform" novalidate ng-submit="myformsubmit()">
+            <div class="list-group">
+                <a ng-repeat="v in experenceList" href="javascript:;" class="list-group-item">
+                    <h4>{{v.startTime|date:'yyyy-MM-dd'}} ~ {{v.endTime|date:'yyyy-MM-dd'}}</h4>
+                    <h4>在{{v.corporateName}}</h4>
+                    <h4>任职{{v.jobTitle}}</h4>
+                    <h4>月薪:{{v.salary}}</h4>
+                    <h4>主要工作内容:{{v.jobContent}}</h4>
+                <span ng-click="updateExperence(v)" class="btn btn-default edit">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                </span>
+                <span ng-click="deleteExperence(v.experenceid)" class="btn btn-default delete">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </span>
+                </a>
+            </div>
             <div ng-class="{'form-group':true,'has-success':myform.startTime.$valid,'has-error':myform.startTime.$invalid && (myform.startTime.$dirty || submitted)}">
                 <label>开始时间:</label>
                 <date-picker date-picker-dt="startDt" date-picker-name="{{ctrlStartTime}}"></date-picker>

@@ -118,9 +118,28 @@ router.post("/createResume/improveEducation", function (req, res) {
     var educationData = req.body;
     var educationid = req.body.educationid;
     var userid = req.body.userid;
-    if (!!educationid) {//更新数据
+    var educationInstance = new educationModel(educationData);
+    if (!!educationid) {//更新教育经历
+        //console.log(req.body);
+        delete req.body.userid;
+        delete req.body.educationid;
+        console.log(req.body);
+        var promise1 = educationModel.update({
+            _id: educationid,
+            userid: userid
+        }, {
+            $set: req.body
+        }, function (error) {
+            if (error)console.log("update education error : ", error);
+        });
+        var promise2 = educationModel.finddata({_id: educationid, userid: userid}, function (error) {
+            if (error)console.log("education finddata error : ", error);
+        });
+        q.all([promise1, promise2]).then(function (val) {
+            console.log(val);
+            res.send("success");
+        });
     } else {//插入一条新数据并保存
-        var educationInstance = new educationModel(educationData);
         var promise1 = educationInstance.save(function (error) {
             if (error)console.log("education save error : ", error);
         });
@@ -141,13 +160,19 @@ router.post("/createResume/improveEducation", function (req, res) {
     }
     return;
 });
-//获取教育经历列表
-router.post("/createResume/educationList", function (req, res) {
-    var educationModel = require("../models/education");
+//todo : 预览个人工作经验
+//todo:做到这里,experience表中没有userid字段
+router.post("/createResume/previewExperience", function (req, res) {
+    var experienceModel = require("../models/experience").experienceModel;
     var userid = req.body.userid;
-    res.send(userid);
+    experienceModel.finddata({userid: userid}, function (error) {
+        if (error)console.log("preview experience error : ", error);
+    }).then(function (resule) {
+        console.log(result);
+        res.send("success");
+    });
 });
-//进一步完善个人经验
+//进一步完善个人工作经验
 router.post("/createResume/improveExperience", function (req, res) {
     var experienceModel = require("../models/experience").experienceModel;
     //userid就是userModel里的_id;

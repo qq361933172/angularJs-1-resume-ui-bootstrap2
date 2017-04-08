@@ -31,11 +31,12 @@ module.exports.resumeConstant = {
         fillInBaseInfo: serviceSite + "resume/createResume/fillInBaseInfo",//填写基本资料
         improveInfo: serviceSite + "resume/createResume/improveInfo",//完善个人信息
         previewEducation: serviceSite + "resume/createResume/previewEducation",//预览教育经历
-        deleteEducation: serviceSite + "resume/createResume/deleteEducation",//删除教育经历
+        educationList: serviceSite + "resume/educationList",//获取教育经历列表
         improveEducation: serviceSite + "resume/createResume/improveEducation",//教育经历
+        previewExperience: serviceSite + "resume/createResume/previewExperience",//预览个人工作经验
         improveExperience: serviceSite + "resume/createResume/improveExperience",//工作经历
-        previewResume: serviceSite + "resume/previewResume",//预览简历
-        educationList: serviceSite + "resume/educationList"//获取教育经历列表
+        deleteEducation: serviceSite + "resume/createResume/deleteEducation",//删除教育经历
+        previewResume: serviceSite + "resume/previewResume"//预览简历
     },
     //高德api
     gaodeApi: {

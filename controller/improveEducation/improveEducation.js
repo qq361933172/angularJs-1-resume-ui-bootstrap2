@@ -2,8 +2,10 @@ module.exports.improveEducation = function ($scope, resumeValue, resumeConstant,
     var resumeCookies = $cookies.getObject("resume");
     //新建一个cookies,存储教育经验,以方便后面点编辑的时候能够刷新页面从cookies里面获取信息填写到表单
     var resumeUpdateEducationCookies = $cookies.getObject("updateEducation");
-    //判断是更新教育经历还是新建教育经历,true为更新,false为新建
+    //判断是更新教育经历还是新建教育经历,true为更新,false为新建,当cookie中没有updateEducation,则自动设置为false
     $scope.isUpdate = !!resumeUpdateEducationCookies && !!resumeUpdateEducationCookies.isUpdate ? true : false;
+    //是否转到下一步
+    $scope.isNextStep = false;
     $scope.goback = resumeConstant.url.improveInfo;//返回上一步
     $scope.pageTitle = !$scope.isUpdate ? resumeValue.msg.improveEducationTitle : resumeValue.msg.updateEducationTitle;
     $scope.user = {}
@@ -58,30 +60,67 @@ module.exports.improveEducation = function ($scope, resumeValue, resumeConstant,
             startTime: v.startTime,
             endTime: v.endTime,
             isUpdate: 1,
-            educationid: v.educationid
+            educationid: v.educationid,
+            userid: v.userid
         });
         $route.reload();
+    }
+    $scope.saveAndAdd = function () {
+        $scope.isNextStep = false;
+    }
+    $scope.nextStep = function () {
+        $scope.isNextStep = true;
     }
     //console.log(resumeCookies);
     //$http.post(resumeConstant.service.educationList,)
     $scope.myformsubmit = function () {
-        $scope.user.qualifications = $scope.user.degree.selected;
-        //  console.log($scope.user);
-        $http.post(resumeConstant.service.improveEducation, Object.assign($scope.user, {
-                userid: $cookies.getObject("resume").userInfo.userid
-            }))
-            .then(function (res) {
-                //console.log(res.data);
-                if (res.data.code == 1) {
-                    var educationData = res.data;
-                    delete educationData.code;
-                    $scope.educationList = educationData.educationArr;
-                    //console.log($scope.educationList);
-                }
-            }, function (error) {
-                if (error) {
-                    alert(error.status);
+
+        //resumeUpdateEducationCookies
+        if ($scope.isUpdate) {//修改或者更新教育经历
+            var resumeUpdateEducationCookies = $cookies.getObject('updateEducation');
+            console.log('$scope.user -- >', $scope.user);
+            $http({
+                url: resumeConstant.service.improveEducation,
+                method: "post",
+                data: Object.assign($scope.user, {
+                    userid: resumeUpdateEducationCookies.userid,
+                    educationid: resumeUpdateEducationCookies.educationid,
+                    qualifications: $scope.user.degree.selected//学历
+                })
+            }).then(function (res) {
+                if (res.data == 'success') {
+                    $cookies.remove("updateEducation");
+                    $route.reload();
                 }
             });
+        }
+        else {//创建并保存新的教育经历
+            //  console.log($scope.user);
+            $http.post(resumeConstant.service.improveEducation, Object.assign($scope.user, {
+                    userid: $cookies.getObject("resume").userInfo.userid,
+                    qualifications: $scope.user.degree.selected//学历
+                }))
+                .then(function (res) {
+                    //console.log(res.data);
+                    if (res.data.code == 1) {
+                        var educationData = res.data;
+                        delete educationData.code;
+                        $scope.educationList = educationData.educationArr;
+                        //console.log($scope.educationList);
+                        //console.log($cookies.getObject('resume'));
+                        var resumeCookies = $cookies.getObject("resume");
+                        //console.log("$scope.isNextStep --> ", $scope.isNextStep);
+                        if ($scope.isNextStep) {
+                            resumeCookies.location = resumeConstant.url.improveExperience;
+                            $cookies.putObject("resume", resumeCookies);
+                        }
+                        $route.reload();
+                    }
+                }, function (error) {
+                    if (error) {
+                        alert(error.status);
+                    }
+                });
+        }
     }
 }

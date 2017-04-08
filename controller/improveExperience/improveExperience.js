@@ -15,7 +15,7 @@ module.exports.improveExperience = function ($scope, resumeValue, $http, $cookie
         // console.log($scope.user);
     });
     $scope.improveExperienceTitle = resumeValue.msg.improveExperienceTitle;
-    $scope.goback = resumeConstant.url.improveInfo;
+    $scope.goback = resumeConstant.url.improveEducation;
     $scope.ctrlStartTime = "startTime";
     $scope.ctrlEndTime = "endTime";
     //公司名称
@@ -55,6 +55,16 @@ module.exports.improveExperience = function ($scope, resumeValue, $http, $cookie
     $scope.saveResume = function () {
         saveExperience()
     }
+    //todo : 完善工作经验,进来先请求历史填写工作经验的记录
+    $http({
+        url: resumeConstant.service.previewExperience,
+        method: "post",
+        data: {
+            userid: $cookies.getObject("resume").userInfo.userid
+        }
+    }).then(function (res) {
+        console.log(res);
+    })
     //保存并预览
     $scope.previewResume = function () {
         saveExperience(function () {

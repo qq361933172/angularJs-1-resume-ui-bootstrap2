@@ -47,11 +47,11 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block" ng-disabled="myform.$invalid">
                     <span ng-if="isUpdate">保存修改</span>
-                    <span ng-if="!isUpdate">保存并添加</span>
+                    <span ng-click="saveAndAdd()" ng-if="!isUpdate">保存并添加</span>
                 </button>
             </div>
             <div ng-if="!isUpdate" class="form-group">
-                <button type="submit" class="btn btn-primary btn-block" ng-disabled="myform.$invalid">下一步</button>
+                <button ng-click="nextStep()" type="submit" class="btn btn-primary btn-block" ng-disabled="educationList.length<1 && myform.$invalid">下一步</button>
             </div>
             <go-back-btn ng-if="!isUpdate" back="goback"></go-back-btn>
         </form>
